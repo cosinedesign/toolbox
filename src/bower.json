@@ -1,0 +1,11 @@
+{
+  "name": "cosinedesign-toolbox",
+  "version": "0.0.1",
+  "authors": [
+    "Jim Ankrom", "Jim Ankrom <arctanone@gmail.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/cosinedesign/toolbox.git"
+  }
+}
