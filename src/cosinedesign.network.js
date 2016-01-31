@@ -1,11 +1,9 @@
 /**
  * Created by Jim Ankrom on 1/1/2015.
- */
-
-/**
  *
  * Custom XHR request module, for when you don't want/need other libraries
 */
+
 var httpRequest = {
     delete: function (url, params, options) {
         return xhr.request(url, 'DELETE', params, options);
