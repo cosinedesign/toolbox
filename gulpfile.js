@@ -1,8 +1,9 @@
-var gulp = require('gulp');
+var gulp = require('gulp'),
+    concat = require('gulp-concat'),
+    karma = require('karma').Server,
+    uglify = require('gulp-uglify'),
+    bower = require('gulp-bower');
 
-var concat = require('gulp-concat');
-var karma = require('karma').Server;
-var uglify = require('gulp-uglify');
 
 gulp.task('minify-js', function () {
     return gulp
@@ -15,9 +16,26 @@ gulp.task('minify-js', function () {
         .pipe(gulp.dest('dist/'))
 });
 
-gulp.task('default', ['minify-js'], function (done) {
+gulp.task('build-test', ['minify-js'], function (done) {
     new karma({
         configFile: __dirname + '/karma.conf.js',
         singleRun: true
     }, done).start();
+});
+
+gulp.task('generate-node-module', function () {
+    return gulp
+        .src([
+            'src/tools/multicast.js',
+            'src/tools/tools.exports.js',
+            'src/cosinedesign.toolbox.js',
+            'src/cosinedesign.mixins.*.js'
+        ])
+        .pipe(concat('index.js'))
+        .pipe(uglify())
+        .pipe(gulp.dest('dist/'))
+});
+
+gulp.task('register-bower', function() {
+    return bower({ cmd: 'register'});
 });

@@ -2,9 +2,6 @@
  * Created by Jim Ankrom on 1/30/2016.
  */
 
-// TODO: scale and constrain
-
-
 function throttle(interval, callback) {
     function invoke () {
         callback();
