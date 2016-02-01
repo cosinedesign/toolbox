@@ -4,13 +4,31 @@ var gulp = require('gulp'),
     uglify = require('gulp-uglify'),
     bower = require('gulp-bower');
 
-
-gulp.task('minify-js', function () {
+function getSrc() {
     return gulp
         .src([
-            'src/cosinedesign.toolbox.js',
-            'src/cosinedesign.mixins.*.js'
-        ])
+            'package/toolbox.head.js',
+            'src/tools/multicast.js',
+            'package/exports.js',
+            'package/toolbox.foot.js'
+        ]);
+}
+
+gulp.task('build-dev', function () {
+    return getSrc()
+        .pipe(concat('toolbox.js'))
+        .pipe(gulp.dest('dist/'))
+});
+
+gulp.task('build-dev-test', ['build-dev'], function (done) {
+    new karma({
+        configFile: __dirname + '/karma.conf.js',
+        singleRun: true
+    }, done).start();
+});
+
+gulp.task('minify-js', function () {
+    return getSrc()
         .pipe(concat('toolbox.min.js'))
         .pipe(uglify())
         .pipe(gulp.dest('dist/'))

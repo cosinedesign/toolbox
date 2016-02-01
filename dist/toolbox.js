@@ -1,3 +1,11 @@
+
+var cosinedesign = cosinedesign || {};
+cosinedesign.toolbox = {};
+
+//noinspection BadExpressionStatementJS
+(function (toolbox) {
+
+
 /**
  * Created by Jim Ankrom
  */
@@ -81,3 +89,11 @@ function multicast (callback) {
 
     return invoke;
 }
+
+toolbox.multicast = multicast;
+
+
+})//noinspection BadExpressionStatementJS
+(
+    cosinedesign.toolbox
+);
