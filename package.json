@@ -1,7 +1,7 @@
 {
     "name": "cosinedesign-toolbox",
     "description": "Tools and utilities not found elsewhere for data, networking, and common object mixins",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "author": "Jim Ankrom <arctanone@gmail.com> (http://www.github.com/JimAnkrom)",
     "license": "MIT",
     "repository": {
