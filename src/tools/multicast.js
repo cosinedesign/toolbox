@@ -1,10 +1,10 @@
 /**
  * Created by Jim Ankrom
  */
-// Multicast Delegate for Event Handlers
+// Multicast pipeline, useful for event handlers
 // inspired by .NET delegate
 function multicast (callback) {
-    var multicast, disabled;
+    var callbacks, disabled;
 
     // TODO: allow callback to be an array
 
@@ -12,18 +12,22 @@ function multicast (callback) {
 
     // main method of execution
     function invoke () {
-        var i, results, len = multicast.length;
+        if (disabled) return;
+        if (!callbacks) return;
+        // TODO: testing for callbacks.length is NOT the right way to test for an array
+        var i, results, len = callbacks.length;
 
-        if (!disabled) {
-            results = [];
-            if (len) {
-                for (i = 0; i < len; i++) {
-                    results.push(multicast[i].apply(this, arguments));
-                }
-            } else {
-                if (multicast) results.push(multicast.apply(this, arguments));
+        if (typeof callbacks == 'function') return callbacks.apply(this, arguments);
+
+        results = [];
+        if (len) {
+            for (i = 0; i < len; i++) {
+                results.push(callbacks[i].apply(this, arguments));
             }
+        } else {
+            if (callbacks) results.push(callbacks.apply(this, arguments));
         }
+
         return results;
     }
 
@@ -31,15 +35,15 @@ function multicast (callback) {
     function add (callback) {
         // TODO: allow callback to be an array of callbacks
 
-        if (multicast) {
-            if (multicast.push) {
-                multicast.push(callback);
+        if (callbacks) {
+            if (callbacks.push) {
+                callbacks.push(callback);
             }
             else {
-                multicast = [multicast, callback];
+                callbacks = [callbacks, callback];
             }
         } else {
-            multicast = callback;
+            callbacks = callback;
         }
 
         return this;
@@ -47,18 +51,18 @@ function multicast (callback) {
 
     // Remove callback from the multicast
     function remove (callback) {
-        var i, len = multicast.length;
+        var i, len = callbacks.length;
 
         if (callback && len > 1) {
             for (i = 0; i < len; i++) {
-                if (multicast[i] === callback) {
-                    multicast.splice(i, 1);
+                if (callbacks[i] === callback) {
+                    callbacks.splice(i, 1);
                     return;
                 }
             }
         } else {
             // only one callback in the multicast
-            multicast = null;
+            callbacks = null;
         }
         return this;
     }
